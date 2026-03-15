@@ -1,4 +1,4 @@
-package com.dragonimperialmindpath
+package com.goldencrownoftheempire
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -1,4 +1,4 @@
-package com.dragonimperialmindpath
+package com.goldencrownoftheempire
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

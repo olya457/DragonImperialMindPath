@@ -84,7 +84,7 @@ function formatMMSS(totalSeconds: number) {
 function pickRandomIndex(len: number, current?: number) {
   if (len <= 1) return 0;
   let next = Math.floor(Math.random() * len);
-  if (typeof current === 'number' && len > 1 && next === current) {
+  if (typeof current === 'number' && next === current) {
     next = (next + 1) % len;
   }
   return next;
@@ -170,7 +170,7 @@ export default function HomeDailyTipsScreen({ navigation }: Props) {
         id: (`__empty_${arr.length}` as unknown) as TipCategoryId,
         title: '',
         tips: [],
-        glyphImage: undefined as any,
+        glyphImage: undefined as never,
       });
     }
     return arr;
@@ -216,10 +216,10 @@ export default function HomeDailyTipsScreen({ navigation }: Props) {
   const loadSaved = useCallback(async () => {
     try {
       const raw = await AsyncStorage.getItem(KEY_SAVED_TIPS);
-      const arr: SavedTipItem[] = raw ? JSON.parse(raw) : [];
-      const safeArr = Array.isArray(arr) ? arr : [];
-      setSavedIDs(new Set(safeArr.map((x) => x.id)));
-      setSavedCount(safeArr.length);
+      const parsed = raw ? JSON.parse(raw) : [];
+      const items: SavedTipItem[] = Array.isArray(parsed) ? parsed : [];
+      setSavedIDs(new Set(items.map((x) => x.id)));
+      setSavedCount(items.length);
     } catch {
       setSavedIDs(new Set());
       setSavedCount(0);
@@ -243,44 +243,70 @@ export default function HomeDailyTipsScreen({ navigation }: Props) {
 
   const incrementVisits = useCallback(async () => {
     try {
-      const next = visitCount + 1;
-      setVisitCount(next);
+      const raw = await AsyncStorage.getItem(KEY_DAILY_SCREEN_VISITS);
+      const current = Number(raw ?? 0) || 0;
+      const next = current + 1;
       await AsyncStorage.setItem(KEY_DAILY_SCREEN_VISITS, String(next));
+      setVisitCount(next);
     } catch {}
-  }, [visitCount]);
+  }, []);
 
   const incrementFinishedTasks = useCallback(async () => {
     try {
-      const next = finishedTasksCount + 1;
-      setFinishedTasksCount(next);
+      const raw = await AsyncStorage.getItem(KEY_DAILY_FINISHED_TASKS);
+      const current = Number(raw ?? 0) || 0;
+      const next = current + 1;
       await AsyncStorage.setItem(KEY_DAILY_FINISHED_TASKS, String(next));
+      setFinishedTasksCount(next);
     } catch {}
-  }, [finishedTasksCount]);
+  }, []);
+
+  const resetTipView = useCallback(() => {
+    setTipCat(null);
+    setTipIndex(0);
+  }, []);
+
+  const resetFocusTask = useCallback(() => {
+    setTaskId(0);
+    setTaskPhase('pick');
+    setRunning(false);
+    setSecondsLeft(10 * 60);
+  }, []);
 
   useEffect(() => {
-    loadCharacter();
-    loadSaved();
-    loadStats();
+    let mounted = true;
+
+    const init = async () => {
+      await Promise.all([loadCharacter(), loadSaved(), loadStats()]);
+      if (!mounted) return;
+    };
+
+    init();
+
+    return () => {
+      mounted = false;
+    };
   }, [loadCharacter, loadSaved, loadStats]);
 
   useFocusEffect(
     useCallback(() => {
-      loadCharacter();
-      loadSaved();
-      loadStats();
-      incrementVisits();
+      let active = true;
 
-      setTab('insights');
-      setTipCat(null);
-      setTipIndex(0);
+      const run = async () => {
+        await Promise.all([loadCharacter(), loadSaved(), loadStats(), incrementVisits()]);
+        if (!active) return;
 
-      setTaskId(0);
-      setTaskPhase('pick');
-      setRunning(false);
-      setSecondsLeft(10 * 60);
+        setTab('insights');
+        resetTipView();
+        resetFocusTask();
+      };
 
-      return undefined;
-    }, [loadCharacter, loadSaved, loadStats, incrementVisits])
+      run();
+
+      return () => {
+        active = false;
+      };
+    }, [loadCharacter, loadSaved, loadStats, incrementVisits, resetTipView, resetFocusTask])
   );
 
   const onShareTip = useCallback(async () => {
@@ -297,8 +323,8 @@ export default function HomeDailyTipsScreen({ navigation }: Props) {
 
     try {
       const raw = await AsyncStorage.getItem(KEY_SAVED_TIPS);
-      const arr: SavedTipItem[] = raw ? JSON.parse(raw) : [];
-      const safeArr = Array.isArray(arr) ? arr : [];
+      const parsed = raw ? JSON.parse(raw) : [];
+      const safeArr: SavedTipItem[] = Array.isArray(parsed) ? parsed : [];
 
       const id = currentTipId;
       const exists = safeArr.find((x) => x.id === id);
@@ -383,16 +409,16 @@ export default function HomeDailyTipsScreen({ navigation }: Props) {
     backToTaskPick();
   }, [incrementFinishedTasks, backToTaskPick]);
 
-  const resetTipView = useCallback(() => {
-    setTipCat(null);
-    setTipIndex(0);
-  }, []);
-
   const headerImageSize = isTinyH ? 50 : isSmallH ? 54 : 60;
   const guideAvatarSize = isTinyH ? 48 : isSmallH ? 52 : 58;
   const sectionGap = isTinyH ? 10 : 12;
 
-  const renderInsightTile = (c: any, idx: number, tileW: number, tileH: number) => {
+  const renderInsightTile = (
+    c: (typeof tiles4)[number],
+    idx: number,
+    tileW: number,
+    tileH: number
+  ) => {
     const isEmpty = String(c.id).startsWith('__empty_');
 
     if (isEmpty) {
@@ -401,7 +427,7 @@ export default function HomeDailyTipsScreen({ navigation }: Props) {
 
     return (
       <Pressable
-        key={c.id}
+        key={String(c.id)}
         onPress={() => {
           setTipCat(c.id);
           setTipIndex(0);

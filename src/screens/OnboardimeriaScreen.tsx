@@ -114,12 +114,12 @@ export default function OnboardScreen({ navigation }: Props) {
         key: 's1',
         image: IMG_1,
         chapter: 'CHAPTER 1',
-        title: 'Arrival to the imperial path',
-        subtitle: 'Guided introduction before entering the main experience.',
+        title: 'Welcome to the royal path',
+        subtitle: 'A refined beginning before you enter your daily guidance journey.',
         bubbles: [
-          { side: 'left', text: 'You have not come to our Empire by chance.' },
-          { side: 'right', text: 'Those who cross these gates are ready to guide their own destiny.' },
-          { side: 'left', text: 'From today, your steps follow a more deliberate path.' },
+          { side: 'left', text: 'You did not arrive here by accident.' },
+          { side: 'right', text: 'Every path begins with a choice, and every choice shapes the day ahead.' },
+          { side: 'left', text: 'From this moment, your journey follows a more thoughtful direction.' },
         ],
         cta: 'Continue',
       },
@@ -127,12 +127,12 @@ export default function OnboardScreen({ navigation }: Props) {
         key: 's2',
         image: IMG_2,
         chapter: 'CHAPTER 2',
-        title: 'Choose your inner direction',
-        subtitle: 'A first decision shapes the mood of the day ahead.',
+        title: 'Choose your royal role',
+        subtitle: 'Your selected guide changes the tone of the experience.',
         bubbles: [
-          { side: 'left', text: 'A strong ruler first understands today’s inner state.' },
-          { side: 'right', text: 'Calm, determination, strength, or reflection — each mood shapes the day.' },
-          { side: 'left', text: 'Your guide will answer according to the path you choose.' },
+          { side: 'left', text: 'A queen leads with grace, balance, and clear reflection.' },
+          { side: 'right', text: 'A king moves with focus, structure, and decisive intention.' },
+          { side: 'left', text: 'Whichever role you choose, the guidance will adapt to your path.' },
         ],
         cta: 'Next chapter',
       },
@@ -140,12 +140,12 @@ export default function OnboardScreen({ navigation }: Props) {
         key: 's3',
         image: IMG_3,
         chapter: 'CHAPTER 3',
-        title: 'Small rituals build discipline',
-        subtitle: 'Short daily actions create long-term balance and focus.',
+        title: 'Daily rituals shape the mind',
+        subtitle: 'Small repeated actions create discipline, calm, and momentum.',
         bubbles: [
-          { side: 'left', text: 'Each day begins with short imperial tasks.' },
-          { side: 'right', text: 'Ten focused minutes can reshape attention and routine.' },
-          { side: 'left', text: 'Progress is not built in one leap. It grows in repeated actions.' },
+          { side: 'left', text: 'Each day begins with a short focus ritual.' },
+          { side: 'right', text: 'A few deliberate actions can change the rhythm of an entire day.' },
+          { side: 'left', text: 'Progress grows through consistency, not through one perfect moment.' },
         ],
         cta: 'Understood',
       },
@@ -153,12 +153,12 @@ export default function OnboardScreen({ navigation }: Props) {
         key: 's4',
         image: IMG_4,
         chapter: 'CHAPTER 4',
-        title: 'The hidden crown awaits',
-        subtitle: 'A final note before you enter the main journey.',
+        title: 'The golden crown awaits',
+        subtitle: 'A final step before entering the main experience.',
         bubbles: [
-          { side: 'left', text: 'Beyond the palace shadows, the Golden Dragon guards the Crown.' },
-          { side: 'right', text: 'Only one gate is true, and only three attempts are given.' },
-          { side: 'left', text: 'Find the right path and the archive will reveal a reward.' },
+          { side: 'left', text: 'Guidance, tasks, and reflection are now ready for you.' },
+          { side: 'right', text: 'The Crown is not only a symbol of power, but of balance and intention.' },
+          { side: 'left', text: 'Step forward and begin your royal journey.' },
         ],
         cta: 'Enter',
       },
@@ -237,7 +237,6 @@ export default function OnboardScreen({ navigation }: Props) {
     760
   );
 
-  // УМЕНЬШЕНЫ верхний контейнер и картинка
   const topInfoH = isTinyH ? 118 : isSmallH ? 126 : 136;
   const imageH = isTinyH ? 98 : isSmallH ? 118 : 150;
   const bottomAreaH = isTinyH ? 88 : isSmallH ? 92 : 100;
@@ -376,7 +375,7 @@ export default function OnboardScreen({ navigation }: Props) {
                   <View style={[styles.bottomArea, { minHeight: bottomAreaH }]}>
                     <View style={styles.bottomMetaRow}>
                       <Text style={[styles.bottomMetaText, isTinyH && { fontSize: 11 }]}>
-                        Imperial prologue
+                        Royal introduction
                       </Text>
 
                       <View style={styles.pageDotsRow}>
