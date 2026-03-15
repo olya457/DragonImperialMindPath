@@ -24,7 +24,7 @@ import { TIP_CATEGORIES, DAILY_TASKS, TipCategoryId } from '../data/dailyTipsDat
 type Props = BottomTabScreenProps<MainTabParamList, 'HomeDailyTips'>;
 
 const BG = require('../assets/bg.png');
-const HEADER_IMG = require('../assets/onboard1.png');
+const HEADER_IMG = require('../assets/od1.png');
 
 const AV_LEFT = require('../assets/avatar_left.png');
 const AV_RIGHT = require('../assets/avatar_right.png');

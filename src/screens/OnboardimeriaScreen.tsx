@@ -20,10 +20,10 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Onboard'>;
 
 const BG = require('../assets/bg.png');
 
-const IMG_1 = require('../assets/onboard1.png');
-const IMG_2 = require('../assets/onboard2.png');
-const IMG_3 = require('../assets/onboard3.png');
-const IMG_4 = require('../assets/onboard4.png');
+const IMG_1 = require('../assets/od1.png');
+const IMG_2 = require('../assets/od2.png');
+const IMG_3 = require('../assets/od3.png');
+const IMG_4 = require('../assets/od4.png');
 
 const AV_LEFT = require('../assets/avatar_left.png');
 const AV_RIGHT = require('../assets/avatar_right.png');
@@ -233,26 +233,28 @@ export default function OnboardScreen({ navigation }: Props) {
   const stageReserved = topPad + bottomPad + (isTinyH ? 14 : 22);
   const cardH = clamp(
     height - stageReserved,
-    isTinyH ? 510 : isSmallH ? 570 : 635,
-    760
+    isTinyH ? 530 : isSmallH ? 590 : 655,
+    780
   );
 
-  // УМЕНЬШЕНЫ верхний контейнер и картинка
-  const topInfoH = isTinyH ? 118 : isSmallH ? 126 : 136;
-  const imageH = isTinyH ? 98 : isSmallH ? 118 : 150;
-  const bottomAreaH = isTinyH ? 88 : isSmallH ? 92 : 100;
+  const topInfoMinH = isTinyH ? 126 : isSmallH ? 136 : 148;
+  const imageH = isTinyH ? 108 : isSmallH ? 128 : 160;
+  const bottomAreaH = isTinyH ? 108 : isSmallH ? 116 : 124;
 
   const innerHorizontal = isTinyH ? 10 : 14;
   const bubbleMaxW = Math.min(cardW - 84, isTinyH ? 228 : isSmallH ? 252 : 300);
   const bubbleGap = isTinyH ? 6 : 8;
   const actionBtnH = isTinyH ? 46 : isSmallH ? 48 : 52;
 
+  const bottomButtonsOffset = 60;
+
   const bubblesScrollH =
     cardH -
-    topInfoH -
+    topInfoMinH -
     imageH -
     bottomAreaH -
-    (isTinyH ? 28 : 34);
+    bottomButtonsOffset -
+    (isTinyH ? 32 : 40);
 
   return (
     <ImageBackground source={BG} style={styles.bg} resizeMode="cover">
@@ -287,7 +289,7 @@ export default function OnboardScreen({ navigation }: Props) {
                     },
                   ]}
                 >
-                  <View style={[styles.topInfoCard, { minHeight: topInfoH }]}>
+                  <View style={[styles.topInfoCard, { minHeight: topInfoMinH }]}>
                     <View style={styles.topInfoRow}>
                       <View style={[styles.chapterPill, { minHeight: isTinyH ? 26 : 30 }]}>
                         <Text style={styles.chapterPillText}>{item.chapter}</Text>
@@ -302,10 +304,9 @@ export default function OnboardScreen({ navigation }: Props) {
                         isTinyH
                           ? { fontSize: 15, lineHeight: 19 }
                           : isSmallH
-                          ? { fontSize: 16, lineHeight: 20 }
-                          : { fontSize: 19, lineHeight: 23 },
+                            ? { fontSize: 16, lineHeight: 20 }
+                            : { fontSize: 19, lineHeight: 23 },
                       ]}
-                      numberOfLines={2}
                     >
                       {item.title}
                     </Text>
@@ -316,10 +317,9 @@ export default function OnboardScreen({ navigation }: Props) {
                         isTinyH
                           ? { fontSize: 10.5, lineHeight: 14, marginTop: 4 }
                           : isSmallH
-                          ? { fontSize: 11, lineHeight: 15, marginTop: 4 }
-                          : { fontSize: 12, lineHeight: 16, marginTop: 5 },
+                            ? { fontSize: 11, lineHeight: 15, marginTop: 4 }
+                            : { fontSize: 12, lineHeight: 16, marginTop: 5 },
                       ]}
-                      numberOfLines={2}
                     >
                       {item.subtitle}
                     </Text>
@@ -339,7 +339,7 @@ export default function OnboardScreen({ navigation }: Props) {
                       styles.imageCard,
                       {
                         height: imageH,
-                        marginTop: isTinyH ? 6 : 8,
+                        marginTop: isTinyH ? 8 : 10,
                       },
                     ]}
                   >
@@ -351,12 +351,13 @@ export default function OnboardScreen({ navigation }: Props) {
                       styles.bubblesScroll,
                       {
                         height: bubblesScrollH,
-                        marginTop: isTinyH ? 6 : 8,
+                        marginTop: isTinyH ? 8 : 10,
                       },
                     ]}
                     contentContainerStyle={{
+                      paddingTop: 6,
                       paddingHorizontal: innerHorizontal,
-                      paddingBottom: 4,
+                      paddingBottom: 10,
                       gap: bubbleGap,
                     }}
                     showsVerticalScrollIndicator={false}
@@ -373,7 +374,15 @@ export default function OnboardScreen({ navigation }: Props) {
                     ))}
                   </ScrollView>
 
-                  <View style={[styles.bottomArea, { minHeight: bottomAreaH }]}>
+                  <View
+                    style={[
+                      styles.bottomArea,
+                      {
+                        minHeight: bottomAreaH,
+                        paddingBottom: 90,
+                      },
+                    ]}
+                  >
                     <View style={styles.bottomMetaRow}>
                       <Text style={[styles.bottomMetaText, isTinyH && { fontSize: 11 }]}>
                         Imperial prologue
@@ -390,7 +399,13 @@ export default function OnboardScreen({ navigation }: Props) {
                       onPress={goNext}
                       style={({ pressed }) => [
                         styles.ctaBtn,
-                        { height: actionBtnH },
+                        {
+                          height: actionBtnH,
+                          position: 'absolute',
+                          left: 4,
+                          right: 4,
+                          bottom: -60,
+                        },
                         pressed && styles.btnPressed,
                       ]}
                     >
@@ -400,8 +415,8 @@ export default function OnboardScreen({ navigation }: Props) {
                           isTinyH
                             ? { fontSize: 16 }
                             : isSmallH
-                            ? { fontSize: 17 }
-                            : { fontSize: 18 },
+                              ? { fontSize: 17 }
+                              : { fontSize: 18 },
                         ]}
                       >
                         {item.cta}
@@ -411,6 +426,9 @@ export default function OnboardScreen({ navigation }: Props) {
                 </Animated.View>
               </View>
             )}
+            contentContainerStyle={{
+              paddingBottom: bottomPad + 140,
+            }}
           />
         </View>
       </SafeAreaView>
@@ -435,7 +453,7 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: 26,
     backgroundColor: PANEL,
-    overflow: 'hidden',
+    overflow: 'visible',
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.10)',
     paddingHorizontal: 12,
@@ -449,7 +467,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
     paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
 
   topInfoRow: {
@@ -495,7 +513,7 @@ const styles = StyleSheet.create({
   },
 
   progressHeadRow: {
-    marginTop: 7,
+    marginTop: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -514,7 +532,7 @@ const styles = StyleSheet.create({
   },
 
   progressTrack: {
-    marginTop: 5,
+    marginTop: 6,
     height: 7,
     borderRadius: 999,
     backgroundColor: 'rgba(255,255,255,0.08)',
@@ -537,7 +555,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 8,
-    paddingVertical: 6,
+    paddingVertical: 8,
   },
 
   topImage: {
@@ -608,16 +626,17 @@ const styles = StyleSheet.create({
   },
 
   bottomArea: {
-    justifyContent: 'flex-end',
-    marginTop: 6,
+    justifyContent: 'flex-start',
+    marginTop: 8,
     paddingHorizontal: 4,
+    position: 'relative',
   },
 
   bottomMetaRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 6,
+    marginBottom: 8,
   },
 
   bottomMetaText: {

@@ -18,7 +18,7 @@ import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import type { MainTabParamList } from '../navigation/types';
 
 const BG = require('../assets/bg.png');
-const HEADER_IMG = require('../assets/onboard1.png');
+const HEADER_IMG = require('../assets/od1.png');
 
 const AV_LEFT = require('../assets/avatar_left.png');
 const AV_RIGHT = require('../assets/avatar_right.png');
