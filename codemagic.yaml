@@ -1,19 +1,19 @@
 workflows:
   sample-workflow:
-    name: Letto Max Choice Type
+    name: Dragon Imperial Mind Path
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: Letto Max Choice Type
+      app_store_connect: Dragon Imperial Mind Path
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.heghoetato.jgahohgiype
+        bundle_identifier: com.ctrynertyver.vymehynadc
       vars:
-        APP_STORE_APPLE_ID: 6756238326
-        BUNDLE_ID: 'com.heghoetato.jgahohgiype'
-        XCODE_WORKSPACE: 'LettoMaxChoiceType.xcworkspace'
-        XCODE_SCHEME: 'LettoMaxChoiceType'
+        APP_STORE_APPLE_ID: 6760642588
+        BUNDLE_ID: 'com.ctrynertyver.vymehynadc'
+        XCODE_WORKSPACE: 'DragonImperialMindPath.xcworkspace'
+        XCODE_SCHEME: 'DragonImperialMindPath'
     scripts:
       - name: Install node modules
         script: |
@@ -50,4 +50,4 @@ workflows:
       app_store_connect:
         auth: integration
         submit_to_app_store: true
-        copyright: VESA ENSIO LAHDEMAKI
+        copyright: Markus Elsenhof
